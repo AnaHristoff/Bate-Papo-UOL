@@ -97,6 +97,25 @@ body {
     background-color: #E5E5E5;
     height: 507px;
     width: 100%;
+    overflow-y: auto;
+}
+
+.chatMessage {
+    display: flex;
+    gap: 5px;
+
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    background-color: #E5E5E5;
+}
+
+.chatMessage .time {
+    color: #AAAAAA;
+}
+
+.chatMessage .name {
+    font-weight: bold;
 }
 
 .message {

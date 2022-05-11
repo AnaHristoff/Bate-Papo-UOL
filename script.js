@@ -21,10 +21,10 @@ function logInScreen(){
 function logIn(){
     name = document.querySelector(".input").value;
     const nameUser = { name: name };
-    const requisicao = axios.post('https://mock-api.driven.com.br/api/v4/uol/participants', nameUser);
+    const requisition = axios.post('https://mock-api.driven.com.br/api/v4/uol/participants', nameUser);
 
-    requisicao.then(logInSuccess);
-    requisicao.catch(logInError);
+    requisition.then(logInSuccess);
+    requisition.catch(logInError);
     
 }
 
@@ -39,7 +39,17 @@ function logInError(error){
     logInScreen();
 }
 
+function stillLogged(){
+    const nameUser = { name: name };
+    console.log(nameUser);
+    const requisicao = axios.post('https://mock-api.driven.com.br/api/v4/uol/status', nameUser);
+}
+
 function chatScreen(){
+    setInterval(stillLogged, 5000);
+    getMessages();
+    console.log("oi");
+
     const message = "";
     const screen = document.querySelector(".screen");
     screen.innerHTML = `
@@ -60,9 +70,34 @@ function chatScreen(){
     `;
 }
 
+function getMessages(){
+    const promise = axios.get('https://mock-api.driven.com.br/api/v4/uol/messages');
+    promise.then(createMessage);
+}
+
+function createMessage(message){
+    console.log(message.data.length);
+    for(let i = 0; i < message.data.length; i++){
+        console.log(i);
+        const chat = document.querySelector(".chat");
+        console.log(chat);
+        chat.innerHTML += `
+            <div class="chatMessage">
+                <p class="time">(${message.data[i].time})</p>
+                <p class="name">${message.data[i].from}</p>
+                <p>para</p>
+                <p class="name">${message.data[i].to}:</p>
+                <p>${message.data[i].text}</p>
+            </div>
+        `;
+
+    }
+}
+
 function sendMessage(){
 
 }
+
 
 function openMenu(){
     const message = "";
@@ -140,23 +175,9 @@ function selectVisibility(visibilitySelected){
     visibilitySelected.children[1].classList.remove("hidden");
 }
 
-function createMessage(){
-    const chat = document.querySelector(".chat");
-    chat.innerHTML += `
-        <div class="chatMessage">
-            <p>${time} </p>
-            <p>${name} </p>
-            <p>para </p>
-            <p>${contact}</p>
-            <p>: </p>
-            <p>${message}</p>
-        </div>
-    `;
-}
 
-function getMessages(){
 
-}
+
 
 
 
