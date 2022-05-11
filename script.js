@@ -2,14 +2,16 @@ let name = "";
 let contact = "";
 let visibility = "";
 let time = "";
+let errorMessage = "";
 
 function logInScreen(){
     const screen = document.querySelector(".screen");
     screen.innerHTML = `
     <div class="logInPage">
         <img class="logInImg" src="./img/logo2.png">
+        <p>${errorMessage}</p>
         <div class="name">
-            <input type="text" value="${name}" placeHolder="Digite seu nome">
+            <input type="text" placeHolder="Digite seu nome" class="input">
         </div>
         <div class="logIn" onclick="logIn()">Entrar</div>
     </div>
@@ -17,7 +19,24 @@ function logInScreen(){
 }
 
 function logIn(){
+    name = document.querySelector(".input").value;
+    const nameUser = { name: name };
+    const requisicao = axios.post('https://mock-api.driven.com.br/api/v4/uol/participants', nameUser);
+
+    requisicao.then(logInSuccess);
+    requisicao.catch(logInError);
+    
+}
+
+function logInSuccess(success){
     chatScreen();
+}
+
+function logInError(error){
+    console.log("Status code: " + error.response.status); 
+	console.log("Mensagem de erro: " + error.response.data); 
+    errorMessage = "Este nome já está sendo utilizado. Por favor, escolha outro.";
+    logInScreen();
 }
 
 function chatScreen(){
@@ -133,6 +152,10 @@ function createMessage(){
             <p>${message}</p>
         </div>
     `;
+}
+
+function getMessages(){
+
 }
 
 
