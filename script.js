@@ -65,7 +65,7 @@ function chatScreen(){
 
         <div class="sendMessage">
             <div class="input">
-                <input type="text" placeHolder="Escreva aqui..." class="messageSent">
+                <input type="text" placeHolder="Escreva aqui..." class="messageSent" onKeyPress="validateEnter()">
                 <div class="privateMessage">${privateMessage}</div>
             </div>
             <ion-icon name="paper-plane-outline" onclick="sendMessage()"></ion-icon>
@@ -140,6 +140,14 @@ function sendMessage(){
     const requisition = axios.post('https://mock-api.driven.com.br/api/v4/uol/messages', messageSent);
     document.querySelector(".messageSent").value = "";
     getMessages();
+}
+
+function validateEnter(){
+    let key = document.querySelector(".messageSent").addEventListener("keyup", function(event) {
+        if(event.key === 'Enter'){
+            sendMessage();
+        }
+    });
 }
 
 
